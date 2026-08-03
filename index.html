@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0d1b2a">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Tailandia 2026">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Tailandia 2026 · Guía del viaje</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --night:#0d1b2a;--night-2:#12243a;--ink:#1a2c3f;
+    --lantern:#f4a950;--lantern-hot:#ff8c42;--ember:#e15b4c;
+    --jade:#4b9b8f;--sky:#5b9bd5;--paper:#f5ede0;--paper-dim:#cdbfa8;
+    --line:rgba(244,169,80,.22);--card:rgba(255,255,255,.045);
+    /* tipos de turismo */
+    --t-playa:#3fa7c4;--t-templo:#c98b3c;--t-ciudad:#b56a8f;--t-natura:#5faa72;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html{scroll-behavior:smooth}
+  body{background:var(--night);color:var(--paper);font-family:'Outfit',sans-serif;font-weight:300;line-height:1.6;overflow-x:hidden;padding:0 0 90px;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:520px;margin:0 auto;padding:0 20px}
+
+  /* HERO */
+  .hero{position:relative;padding:60px 20px 40px;text-align:center;overflow:hidden;background:radial-gradient(120% 80% at 50% -10%, #1c3350 0%, var(--night) 60%)}
+  .lanterns{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+  .lantern{position:absolute;width:11px;height:15px;border-radius:50% 50% 45% 45%;background:radial-gradient(circle at 50% 35%,#fff2cf,var(--lantern) 45%,var(--lantern-hot) 90%);box-shadow:0 0 14px 3px rgba(244,169,80,.55);opacity:0;animation:rise linear infinite}
+  @keyframes rise{0%{transform:translateY(20px) scale(.7);opacity:0}12%{opacity:.9}85%{opacity:.8}100%{transform:translateY(-115vh) scale(1);opacity:0}}
+  @media (prefers-reduced-motion:reduce){.lantern{animation:none;opacity:.35}}
+  .eyebrow{position:relative;font-size:.72rem;letter-spacing:.42em;text-transform:uppercase;color:var(--lantern);font-weight:500;margin-bottom:16px}
+  .hero h1{position:relative;font-family:'Fraunces',serif;font-weight:500;font-size:2.8rem;line-height:1.02;letter-spacing:-.01em;color:var(--paper)}
+  .hero h1 em{font-style:italic;color:var(--lantern)}
+  .dates{position:relative;margin-top:14px;font-size:.95rem;color:var(--paper-dim)}
+  .dates b{color:var(--paper);font-weight:500}
+  .route{position:relative;display:inline-flex;align-items:center;gap:9px;margin-top:20px;padding:9px 18px;border:1px solid var(--line);border-radius:100px;font-size:.82rem;color:var(--paper);background:rgba(255,255,255,.03)}
+  .route span{color:var(--lantern);font-size:.7rem}
+
+  /* install hint */
+  .install{margin:22px 20px 0;max-width:480px;margin-left:auto;margin-right:auto}
+  #installBtn{display:none;width:100%;padding:13px;border:none;border-radius:12px;background:linear-gradient(90deg,var(--lantern),var(--lantern-hot));color:var(--night);font-family:'Outfit',sans-serif;font-weight:600;font-size:.9rem;cursor:pointer}
+  .ios-hint{display:none;font-size:.78rem;color:var(--paper-dim);text-align:center;padding:10px 14px;border:1px dashed var(--line);border-radius:12px;margin-top:4px}
+
+  /* SECTION TITLES */
+  .sec-head{display:flex;align-items:baseline;gap:12px;margin:40px 0 16px}
+  .sec-head .n{font-family:'Fraunces',serif;font-style:italic;font-size:1rem;color:var(--lantern);min-width:26px}
+  .sec-head h2{font-family:'Fraunces',serif;font-weight:500;font-size:1.5rem;letter-spacing:-.01em;color:var(--paper)}
+
+  /* leyenda tipos */
+  .legend{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 6px}
+  .chip{display:inline-flex;align-items:center;gap:6px;font-size:.72rem;padding:5px 11px;border-radius:100px;border:1px solid transparent;font-weight:400}
+  .chip .d{width:8px;height:8px;border-radius:50%}
+  .chip.playa{color:var(--t-playa);border-color:rgba(63,167,196,.4)}.chip.playa .d{background:var(--t-playa)}
+  .chip.templo{color:var(--t-templo);border-color:rgba(201,139,60,.4)}.chip.templo .d{background:var(--t-templo)}
+  .chip.ciudad{color:var(--t-ciudad);border-color:rgba(181,106,143,.4)}.chip.ciudad .d{background:var(--t-ciudad)}
+  .chip.natura{color:var(--t-natura);border-color:rgba(95,170,114,.4)}.chip.natura .d{background:var(--t-natura)}
+
+  /* FESTIVAL */
+  .festival{margin:24px 0 8px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(160deg,rgba(244,169,80,.14),rgba(225,91,76,.08));padding:22px 20px;position:relative;overflow:hidden}
+  .festival::before{content:"";position:absolute;top:-40px;right:-30px;width:130px;height:130px;background:radial-gradient(circle,rgba(244,169,80,.35),transparent 70%)}
+  .festival .tag{display:inline-block;font-size:.66rem;letter-spacing:.28em;text-transform:uppercase;color:var(--night);background:var(--lantern);padding:4px 11px;border-radius:100px;font-weight:600;margin-bottom:12px}
+  .festival h3{font-family:'Fraunces',serif;font-weight:500;font-size:1.35rem;line-height:1.15;color:var(--paper);margin-bottom:8px;position:relative}
+  .festival p{font-size:.9rem;color:var(--paper-dim);position:relative}
+  .festival .warn{margin-top:14px;padding-top:14px;border-top:1px solid var(--line);font-size:.82rem;color:var(--lantern);position:relative}
+
+  /* DAY CARDS */
+  .day{border:1px solid rgba(255,255,255,.07);border-radius:18px;background:var(--card);margin-bottom:14px;overflow:hidden;transition:border-color .25s}
+  .day summary{list-style:none;cursor:pointer;padding:15px 16px;display:flex;align-items:center;gap:13px}
+  .day summary::-webkit-details-marker{display:none}
+  .day .num{font-family:'Fraunces',serif;font-style:italic;font-size:1.05rem;color:var(--lantern);flex-shrink:0;width:34px;text-align:center}
+  .day .head-txt{flex:1;min-width:0}
+  .day .d-date{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--paper-dim)}
+  .day .d-place{font-family:'Fraunces',serif;font-size:1.1rem;color:var(--paper);font-weight:500;line-height:1.2;margin-top:1px}
+  .day .d-tags{display:flex;gap:5px;margin-top:6px;flex-wrap:wrap}
+  .mini{font-size:.62rem;letter-spacing:.05em;text-transform:uppercase;padding:2px 8px;border-radius:100px;font-weight:500}
+  .mini.playa{background:rgba(63,167,196,.16);color:var(--t-playa)}
+  .mini.templo{background:rgba(201,139,60,.16);color:var(--t-templo)}
+  .mini.ciudad{background:rgba(181,106,143,.16);color:var(--t-ciudad)}
+  .mini.natura{background:rgba(95,170,114,.16);color:var(--t-natura)}
+  .day .chev{color:var(--lantern);transition:transform .3s;flex-shrink:0;opacity:.7}
+  .day[open] .chev{transform:rotate(90deg)}
+  .day[open]{border-color:var(--line)}
+  .day .body{padding:0 16px 16px}
+  .day .hero-img{width:100%;height:170px;object-fit:cover;border-radius:12px;margin-bottom:6px;background:#16293d;display:block}
+  .day .cap{font-size:.68rem;color:var(--paper-dim);text-align:right;margin:-2px 2px 8px;opacity:.7}
+  .row{display:flex;gap:11px;margin-top:12px;font-size:.88rem}
+  .row .k{flex-shrink:0;width:64px;font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;color:var(--lantern);padding-top:2px;font-weight:500}
+  .row .v{flex:1;color:var(--paper);font-weight:300}
+  .row .v .hint{color:var(--paper-dim);font-size:.82rem;display:block;margin-top:2px}
+  .price{color:var(--jade);font-weight:400;white-space:nowrap}
+  .tag-ride{display:inline-flex;align-items:center;gap:5px;margin-top:12px;font-size:.72rem;color:var(--jade);border:1px solid rgba(75,155,143,.35);padding:4px 10px;border-radius:100px}
+  .tag-ride.no{color:var(--ember);border-color:rgba(225,91,76,.3)}
+  .vid{position:relative;width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;margin-top:12px;background:#16293d}
+  .vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+
+  /* INFO CARDS */
+  .info{border:1px solid rgba(255,255,255,.07);border-radius:18px;background:var(--card);padding:20px;margin-bottom:14px}
+  .info h3{font-family:'Fraunces',serif;font-weight:500;font-size:1.15rem;color:var(--paper);margin-bottom:6px;display:flex;align-items:center;gap:9px}
+  .info h3 .dot{width:7px;height:7px;border-radius:50%;background:var(--lantern);flex-shrink:0}
+  .info p{font-size:.88rem;color:var(--paper-dim);margin-bottom:4px}
+  .info ul{list-style:none;margin-top:10px}
+  .info li{font-size:.87rem;color:var(--paper);padding:7px 0 7px 20px;position:relative;font-weight:300;border-top:1px solid rgba(255,255,255,.05)}
+  .info li:first-child{border-top:none}
+  .info li::before{content:"";position:absolute;left:2px;top:14px;width:6px;height:6px;border-radius:50%;background:var(--lantern);opacity:.7}
+  .info li b{color:var(--paper);font-weight:500}
+  .pill-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .pill{font-size:.78rem;color:var(--paper);background:rgba(244,169,80,.1);border:1px solid var(--line);padding:6px 12px;border-radius:100px}
+
+  .clima{display:flex;gap:10px;margin-top:12px}
+  .clima .col{flex:1;border-radius:14px;padding:14px;border:1px solid rgba(255,255,255,.08)}
+  .clima .good{background:linear-gradient(160deg,rgba(75,155,143,.16),transparent)}
+  .clima .bad{background:linear-gradient(160deg,rgba(225,91,76,.14),transparent)}
+  .clima .col .lbl{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px}
+  .clima .good .lbl{color:var(--jade)}.clima .bad .lbl{color:var(--ember)}
+  .clima .col .pl{font-family:'Fraunces',serif;font-size:1rem;color:var(--paper);margin-bottom:4px}
+  .clima .col p{font-size:.78rem;color:var(--paper-dim);margin:0}
+
+  /* checklist */
+  .prog{height:6px;border-radius:100px;background:rgba(255,255,255,.08);overflow:hidden;margin-bottom:8px}
+  .prog-bar{height:100%;width:0;border-radius:100px;background:linear-gradient(90deg,var(--lantern),var(--lantern-hot));transition:width .45s cubic-bezier(.2,.8,.2,1)}
+  .prog-txt{font-size:.74rem;color:var(--paper-dim);margin-bottom:6px}
+  .check{list-style:none;margin-top:4px}
+  .check li{padding:9px 0;display:flex;gap:12px;align-items:flex-start;cursor:pointer;border-top:1px solid rgba(255,255,255,.05);user-select:none;-webkit-user-select:none}
+  .check li:first-child{border-top:none}
+  .check li::before{display:none}
+  .check .box{flex-shrink:0;width:20px;height:20px;border-radius:6px;margin-top:1px;border:1.5px solid var(--lantern);opacity:.85;position:relative;transition:all .2s}
+  .check li.done .box{background:var(--lantern);opacity:1}
+  .check li.done .box::after{content:"";position:absolute;left:6px;top:2px;width:5px;height:10px;border:solid var(--night);border-width:0 2px 2px 0;transform:rotate(45deg)}
+  .check .ck-body{flex:1;font-size:.87rem;color:var(--paper);font-weight:300;transition:opacity .2s}
+  .check li.done .ck-body{opacity:.5;text-decoration:line-through;text-decoration-color:rgba(244,169,80,.5)}
+  .check li .when{display:block;font-size:.72rem;color:var(--lantern);letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px;font-weight:500}
+  .check li.done .when{color:var(--paper-dim)}
+  .ck-note{font-size:.72rem;color:var(--paper-dim);margin-top:12px;font-style:italic;opacity:.75}
+
+  .foot{text-align:center;padding:36px 20px 10px;color:var(--paper-dim);font-size:.78rem}
+  .foot .m{font-family:'Fraunces',serif;font-style:italic;color:var(--lantern);font-size:1.05rem;margin-bottom:8px}
+
+  .nav{position:fixed;bottom:0;left:0;right:0;z-index:50;background:rgba(9,17,28,.86);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:10px 6px calc(10px + env(safe-area-inset-bottom,0))}
+  .nav a{flex:1;text-align:center;color:var(--paper-dim);text-decoration:none;font-size:.62rem;letter-spacing:.04em;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:5px;padding:2px}
+  .nav a .ic{font-size:1.1rem;line-height:1}
+  .nav a:active{color:var(--lantern)}
+  .divider{height:1px;background:linear-gradient(90deg,transparent,var(--line),transparent);margin:8px 0}
+  #updateBtn{display:block;width:100%;margin-top:18px;padding:14px;border:none;border-radius:12px;background:linear-gradient(90deg,var(--lantern),var(--lantern-hot));color:var(--night);font-family:'Outfit',sans-serif;font-weight:600;font-size:.9rem;cursor:pointer}
+  #downloadBtn{display:block;width:100%;margin-top:10px;padding:14px;border:1px solid var(--line);border-radius:12px;background:rgba(244,169,80,.1);color:var(--lantern);font-family:'Outfit',sans-serif;font-weight:500;font-size:.9rem;cursor:pointer;transition:background .2s}
+  #downloadBtn:active{background:rgba(244,169,80,.2)}
+  .dl-note{font-size:.72rem;color:var(--paper-dim);text-align:center;margin-top:8px;opacity:.75}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="lanterns" id="lanterns"></div>
+  <div class="eyebrow">Guía del viaje</div>
+  <h1>Tailandia <em>2026</em></h1>
+  <div class="dates"><b>21 nov – 5 dic 2026</b> · 14 noches</div>
+  <div class="route">Madrid <span>✈</span> Bangkok <span>✈</span> Madrid</div>
+</header>
+
+<div class="install">
+  <button id="installBtn">📲 Instalar como app</button>
+  <div class="ios-hint" id="iosHint">Para guardarla: toca <b>Compartir</b> y luego <b>«Añadir a pantalla de inicio»</b>.</div>
+</div>
+
+<div class="wrap">
+
+  <div class="festival" id="festival">
+    <span class="tag">No te lo pierdas</span>
+    <h3>Festival de las Linternas</h3>
+    <p>El <b style="color:var(--paper)">24–25 nov</b> coincidimos con el Yi Peng + Loy Krathong en Chiang Mai: miles de linternas al cielo y ofrendas flotantes en el río. Uno de los grandes espectáculos de Asia — y el motivo de que el plan gire en torno al norte esos días.</p>
+    <div class="warn">⚠ Reservar YA: entradas del evento de linternas (se agotan con meses) y hotel en Chiang Mai (la ciudad se llena).</div>
+  </div>
+
+  <div class="sec-head" id="dias"><span class="n">01</span><h2>El viaje, día a día</h2></div>
+  <div class="legend">
+    <span class="chip playa"><span class="d"></span>Playa</span>
+    <span class="chip templo"><span class="d"></span>Templos</span>
+    <span class="chip ciudad"><span class="d"></span>Ciudad</span>
+    <span class="chip natura"><span class="d"></span>Naturaleza</span>
+  </div>
+
+  <!-- DIA 1-2 -->
+  <details class="day">
+    <summary>
+      <span class="num">1–2</span>
+      <div class="head-txt"><div class="d-date">Sáb 21 – Dom 22 nov</div><div class="d-place">Vuelo + Bangkok</div>
+        <div class="d-tags"><span class="mini ciudad">Ciudad</span></div></div>
+      <svg class="chev" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </summary>
+    <div class="body">
+      <div class="row"><div class="k">Vuelo</div><div class="v">Madrid → Bangkok. Con el cambio horario se llega el domingo 22.</div></div>
+      <div class="row"><div class="k">Llegada</div><div class="v">Traslado al hotel en Grab o taxi con taxímetro.<span class="hint">Tarde suave por el jet lag: paseo y cena en un mercado nocturno.</span></div></div>
+      <div class="row"><div class="k">Coste</div><div class="v"><span class="price">Taxi aeropuerto ~11 € (400 THB)</span></div></div>
+    </div>
+  </details>
+
+  <!-- DIA 3 BANGKOK -->
+  <details class="day">
+    <summary>
+      <span class="num">3</span>
+      <div class="head-txt"><div class="d-date">Lun 23 nov</div><div class="d-place">Bangkok a fondo</div>
+        <div class="d-tags"><span class="mini templo">Templos</span><span class="mini ciudad">Ciudad</span></div></div>
+      <svg class="chev" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </summary>
+    <div class="body">
+      <img class="hero-img" loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Wat_Arun_from_Chao_Phraya_River_at_sunset.jpg?width=900" alt="Wat Arun al atardecer sobre el río Chao Phraya">
+      <div class="cap">Wat Arun · Bangkok</div>
+      <div class="row"><div class="k">Mañana</div><div class="v">Gran Palacio + Wat Pho (Buda reclinado). Ir temprano.<span class="hint">Templos: hombros y rodillas cubiertos.</span></div></div>
+      <div class="row"><div class="k">Tarde</div><div class="v">Wat Arun cruzando el río, paseo en barca por los canales, cena en el barrio chino (Yaowarat).</div></div>
+      <div class="row"><div class="k">Entradas</div><div class="v"><span class="price">Gran Palacio ~13 € (500 THB)</span> · Wat Pho ~8 € (300 THB) · Wat Arun ~3 € (100 THB)</div></div>
+      <span class="tag-ride no">✕ Moto no — tráfico caótico</span>
+      <div class="vid"><iframe loading="lazy" src="https://www.youtube-nocookie.com/embed/hd6rZM5wlww" title="Bangkok walking tour 4K" allowfullscreen></iframe></div>
+    </div>
+  </details>
+
+  <!-- DIA 4 CHIANG MAI -->
+  <details class="day">
+    <summary>
+      <span class="num">4</span>
+      <div class="head-txt"><div class="d-date">Mar 24 nov</div><div class="d-place">→ Chiang Mai · Festival</div>
+        <div class="d-tags"><span class="mini templo">Templos</span><span class="mini ciudad">Ciudad</span></div></div>
+      <svg class="chev" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </summary>
+    <div class="body">
+      <img class="hero-img" loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Wat_Phra_That_Doi_Suthep_(I).jpg?width=900" alt="Wat Phra That Doi Suthep en Chiang Mai">
+      <div class="cap">Doi Suthep · Chiang Mai</div>
+      <div class="row"><div class="k">Traslado</div><div class="v">Vuelo Bangkok → Chiang Mai (~1h20), a primera hora.<span class="hint">Low cost salen de Don Mueang (DMK), no de Suvarnabhumi.</span></div></div>
+      <div class="row"><div class="k">Tarde</div><div class="v">Casco antiguo: Wat Chedi Luang, Wat Phra Singh.</div></div>
+      <div class="row"><div class="k">Noche</div><div class="v">Primera noche del festival. Río Ping y casco iluminados.</div></div>
+      <div class="row"><div class="k">Coste</div><div class="v"><span class="price">Vuelo interno ~45 € (1.700 THB)</span> · evento linternas ~120 € (4.500 THB)</div></div>
+    </div>
+  </details>
+
+  <!-- DIA 5 ELEFANTES -->
+  <details class="day">
+    <summary>
+      <span class="num">5</span>
+      <div class="head-txt"><div class="d-date">Mié 25 nov</div><div class="d-place">Elefantes + luna llena</div>
+        <div class="d-tags"><span class="mini natura">Naturaleza</span><span class="mini templo">Templos</span></div></div>
+      <svg class="chev" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </summary>
+    <div class="body">
+      <div class="row"><div class="k">Mañana</div><div class="v">Santuario ético de elefantes (medio día, sin montarlos).</div></div>
+      <div class="row"><div class="k">Tarde</div><div class="v">Doi Suthep, el templo de la montaña con vistas.</div></div>
+      <div class="row"><div class="k">Noche</div><div class="v">Punto álgido del Loy Krathong: soltar un krathong en el río, desfiles, ambiente por toda la ciudad.</div></div>
+      <div class="row"><div class="k">Entradas</div><div class="v"><span class="price">Elefantes ~40–65 € (1.500–2.500 THB)</span> · Doi Suthep ~1,60 € (60 THB)</div></div>
+    </div>
+  </details>
+
+  <!-- DIA 6 CHIANG RAI -->
+  <details class="day">
+    <summary>
+      <span class="num">6</span>
+      <div class="head-txt"><div class="d-date">Jue 26 nov</div><div class="d-place">Chiang Rai (excursión)</div>
+        <div class="d-tags"><span class="mini templo">Templos</span></div></div>
+      <svg class="chev" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </summary>
+    <div class="body">
+      <img class="hero-img" loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Wat_Rong_Khun_-_Chiang_Rai.jpg?width=900" alt="Wat Rong Khun, el Templo Blanco de Chiang Rai">
+      <div class="cap">Templo Blanco · Chiang Rai</div>
+      <div class="row"><div class="k">Día</div><div class="v">Excursión a Chiang Rai (~3h por sentido) sin cambiar de hotel: Templo Blanco, Templo Azul, Casa Negra y Triángulo de Oro.</div></div>
+      <div class="row"><div class="k">Cómo</div><div class="v">Furgoneta con conductor o tour organizado (más cómodo para el día).</div></div>
+      <div class="row"><div class="k">Entradas</div><div class="v"><span class="price">Templo Blanco ~2,60 € (100 THB)</span> · Templo Azul gratis · Casa Negra ~2 € (80 THB)</div></div>
+      <span class="tag-ride">✓ Moto ok en Chiang Rai ciudad</span>
+    </div>
+  </details>
+
+  <!-- DIA 7 -->
+  <details class="day">
+    <summary>
+      <span class="num">7</span>
+      <div class="head-txt"><div class="d-date">Vie 27 nov</div><div class="d-place">Chiang Mai → Krabi</div>
+        <div class="d-tags"><span class="mini ciudad">Ciudad</span><span class="mini playa">Playa</span></div></div>
+      <svg class="chev" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </summary>
+    <div class="body">
+      <div class="row"><div class="k">Mañana</div><div class="v">Libre en Chiang Mai: mercado de Warorot, taller de cocina, o templos en moto por el casco.</div></div>
+      <div class="row"><div class="k">Traslado</div><div class="v">Vuelo Chiang Mai → Krabi (~2h, directo). Traslado a Ao Nang o Railay.</div></div>
+      <div class="row"><div class="k">Coste</div><div class="v"><span class="price">Vuelo interno ~55 € (2.100 THB)</span></div></div>
+      <span class="tag-ride">✓ Moto ok en el casco de Chiang Mai</span>
+    </div>
+  </details>
+
+  <!-- DIA 8-10 KRABI -->
+  <details class="day">
+    <summary>
+      <span class="num">8–10</span>
+      <div class="head-txt"><div class="d-date">Sáb 28 – Lun 30 nov</div><div class="d-place">Krabi · Railay · Islas</div>
+        <div class="d-tags"><span class="mini playa">Playa</span><span class="mini natura">Naturaleza</span></div></div>
+      <svg class="chev" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </summary>
+    <div class="body">
+      <img class="hero-img" loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/Railay,_Rock,_Krabi,_Thailand.jpg?width=900" alt="Playa de Railay entre acantilados de piedra caliza, Krabi">
+      <div class="cap">Railay · Krabi</div>
+      <div class="row"><div class="k">Playa</div><div class="v">Railay (acantilados y playas solo accesibles en barco) y Phra Nang. La mejor costa en noviembre.</div></div>
+      <div class="row"><div class="k">Barco</div><div class="v">Excursión a Phi Phi (ida y vuelta) o tour de las 4 islas con snorkel.</div></div>
+      <div class="row"><div class="k">Extra</div><div class="v">Kayak entre acantilados o el templo Tiger Cave y sus vistas.</div></div>
+      <div class="row"><div class="k">Entradas</div><div class="v"><span class="price">Tour en barco ~21–40 € (800–1.500 THB)</span> · tasa parque Phi Phi ~11 € (400 THB)</div></div>
+      <span class="tag-ride">✓ Moto ok en Krabi / Ao Nang</span>
+      <div class="vid"><iframe loading="lazy" src="https://www.youtube-nocookie.com/embed/4NBqluEF-ys" title="Railay Beach Krabi 4K" allowfullscreen></iframe></div>
+    </div>
+  </details>
+
+  <!-- DIA 11-12 -->
+  <details class="day">
+    <summary>
+      <span class="num">11–12</span>
+      <div class="head-txt"><div class="d-date">Mar 1 – Mié 2 dic</div><div class="d-place">Krabi → Bangkok</div>
+        <div class="d-tags"><span class="mini ciudad">Ciudad</span><span class="mini templo">Templos</span></div></div>
+      <svg class="chev" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </summary>
+    <div class="body">
+      <div class="row"><div class="k">Traslado</div><div class="v">Vuelo Krabi → Bangkok (~1h20). Tarde de compras, masaje o lo pendiente.</div></div>
+      <div class="row"><div class="k">Opción</div><div class="v">Excursión de medio día: mercado flotante y/o Ayutthaya (ciudad de templos).</div></div>
+      <div class="row"><div class="k">Coste</div><div class="v"><span class="price">Vuelo ~40 € (1.500 THB)</span> · Ayutthaya ~1,30 €/templo (50 THB) · masaje ~8 €/h (300 THB)</div></div>
+    </div>
+  </details>
+
+  <!-- DIA 13-14 -->
+  <details class="day">
+    <summary>
+      <span class="num">13–14</span>
+      <div class="head-txt"><div class="d-date">Jue 3 – Vie 5 dic</div><div class="d-place">Margen + vuelta</div>
+        <div class="d-tags"><span class="mini playa">Playa</span><span class="mini ciudad">Ciudad</span></div></div>
+      <svg class="chev" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </summary>
+    <div class="body">
+      <div class="row"><div class="k">Colchón</div><div class="v">1–2 días libres: más playa en Krabi o más Bangkok/Ayutthaya, a elegir.</div></div>
+      <div class="row"><div class="k">Vie 5</div><div class="v">Vuelo Bangkok → Madrid. Margen para el traslado si sale de Suvarnabhumi (BKK).</div></div>
+    </div>
+  </details>
+
+  <!-- CLIMA -->
+  <div class="sec-head" id="clima"><span class="n">02</span><h2>Clima y tormentas</h2></div>
+  <div class="info">
+    <p>Tailandia tiene dos costas con lluvias desfasadas. En noviembre la clave es elegir bien — y por eso la playa va al oeste.</p>
+    <div class="clima">
+      <div class="col good"><div class="lbl">◒ Costa oeste</div><div class="pl">Krabi · Phi Phi</div><p>De los mejores meses. Seco, mar tranquilo, 26–32°. Nuestra playa.</p></div>
+      <div class="col bad"><div class="lbl">◒ Costa este</div><div class="pl">Koh Samui</div><p>Su mes más lluvioso. La evitamos en estas fechas.</p></div>
+    </div>
+    <ul>
+      <li><b>Bangkok y centro:</b> temporada seca, bien.</li>
+      <li><b>Chiang Mai / Rai:</b> buen día, noche fresca — llevad algo de abrigo. El festival marca el fin de las lluvias.</li>
+    </ul>
+  </div>
+
+  <!-- MOTO -->
+  <div class="sec-head" id="moto"><span class="n">03</span><h2>Alquilar moto</h2></div>
+  <div class="info">
+    <h3><span class="dot"></span>Se puede, pero con reglas</h3>
+    <ul>
+      <li><b>Carné internacional con sello "A"</b> (moto). El carné español NO vale para moto aquí. Tramítalo antes de salir.</li>
+      <li><b>Sin licencia válida, el seguro de viaje se anula</b> en caso de accidente. Es el punto serio.</li>
+      <li><b>Casco siempre:</b> obligatorio y multan por no llevarlo <span class="price">(~13–25 € / 500–1.000 THB)</span>.</li>
+      <li><b>Fianza:</b> efectivo o copia del pasaporte, nunca el original (estafa común).</li>
+      <li>Alquiler típico de moto: <span class="price">~5–8 €/día (200–300 THB)</span>.</li>
+    </ul>
+    <div class="pill-row">
+      <span class="pill" style="color:var(--jade);border-color:rgba(75,155,143,.35)">✓ Krabi / Ao Nang</span>
+      <span class="pill" style="color:var(--jade);border-color:rgba(75,155,143,.35)">✓ Casco Chiang Mai</span>
+      <span class="pill" style="color:var(--ember);border-color:rgba(225,91,76,.3)">✕ Bangkok</span>
+    </div>
+  </div>
+
+  <!-- COMIDA -->
+  <div class="sec-head" id="comida"><span class="n">04</span><h2>Comer en la calle</h2></div>
+  <div class="info">
+    <h3><span class="dot"></span>Sí, sería un pecado no hacerlo</h3>
+    <p>Fresca, auténtica y barata <span class="price">(1–4 € el plato / 40–150 THB)</span>. Elige puestos con cola de locales y comida hecha al momento; deja que el estómago se adapte los primeros días y bebe agua embotellada.</p>
+    <div class="pill-row">
+      <span class="pill">Pad Thai</span><span class="pill">Mango Sticky Rice</span><span class="pill">Som Tam</span>
+      <span class="pill">Khao Pad</span><span class="pill">Tom Yum Goong</span><span class="pill">Curry verde</span>
+    </div>
+  </div>
+
+  <!-- ROPA -->
+  <div class="sec-head" id="ropa"><span class="n">05</span><h2>Qué meter en la maleta</h2></div>
+  <div class="info">
+    <ul>
+      <li><b>Calor (26–33°):</b> ropa ligera, bañador, chanclas + calzado cómodo, gorra y gafas.</li>
+      <li><b>Norte de noche:</b> sudadera o forro ligero y pantalón largo.</li>
+      <li><b>Templos:</b> hombros y rodillas cubiertos. Un pareo sirve para todo.</li>
+      <li><b>Lluvia / barco:</b> chubasquero fino, funda impermeable del móvil, bolsa estanca.</li>
+      <li><b>Básicos:</b> repelente, protección solar alta, algo para el estómago, adaptador, powerbank.</li>
+    </ul>
+  </div>
+
+  <!-- CHECKLIST -->
+  <div class="sec-head" id="reservas"><span class="n">06</span><h2>Reservar con tiempo</h2></div>
+  <div class="info">
+    <div class="prog"><div class="prog-bar" id="progBar"></div></div>
+    <div class="prog-txt" id="progTxt">0 de 5 hechas</div>
+    <ul class="check" id="checklist">
+      <li data-id="ck1"><span class="box"></span><div class="ck-body"><span class="when">Con meses</span>Entrada del evento de linternas (CAD) — se agotan pronto.</div></li>
+      <li data-id="ck2"><span class="box"></span><div class="ck-body"><span class="when">Cuanto antes</span>Hotel de Chiang Mai (24–27 nov) y los 3 vuelos internos.</div></li>
+      <li data-id="ck3"><span class="box"></span><div class="ck-body"><span class="when">Antes de salir</span>Permiso internacional con sello A + seguro que cubra Tailandia.</div></li>
+      <li data-id="ck4"><span class="box"></span><div class="ck-body"><span class="when">Días antes</span>Elefantes, tours en barco de Krabi, Chiang Rai, Ayutthaya.</div></li>
+      <li data-id="ck5"><span class="box"></span><div class="ck-body"><span class="when">En taquilla</span>Gran Palacio, Wat Pho, Wat Arun, templos.</div></li>
+    </ul>
+    <div class="ck-note">Lo que marques se guarda solo en tu móvil.</div>
+  </div>
+
+  <div class="divider"></div>
+  <button id="updateBtn">↻ Actualizar a la última versión</button>
+  <button id="downloadBtn">⬇ Descargar para usar sin conexión</button>
+  <div class="dl-note">«Actualizar» trae los últimos cambios publicados. «Descargar» guarda una copia en tu móvil que funciona sin internet.</div>
+
+  <div class="foot">
+    <div class="m">Chok dee — buena suerte y buen viaje ✦</div>
+    Guía del grupo · festival confirmado 24–25 nov 2026 · precios orientativos (1 € ≈ 38 THB).<br>Imágenes: Wikimedia Commons.
+  </div>
+</div>
+
+<nav class="nav">
+  <a href="#festival"><span class="ic">✦</span>Festival</a>
+  <a href="#dias"><span class="ic">◷</span>Días</a>
+  <a href="#clima"><span class="ic">☂</span>Clima</a>
+  <a href="#moto"><span class="ic">◍</span>Moto</a>
+  <a href="#comida"><span class="ic">◆</span>Comida</a>
+  <a href="#reservas"><span class="ic">✓</span>Reservas</a>
+</nav>
+
+<script>
+  (function(){
+    const c=document.getElementById('lanterns');if(!c)return;
+    const reduce=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+    const n=reduce?6:14;
+    for(let i=0;i<n;i++){const l=document.createElement('div');l.className='lantern';
+      l.style.left=(Math.random()*100)+'%';l.style.bottom=(-10-Math.random()*20)+'px';
+      const dur=(7+Math.random()*7);l.style.animationDuration=dur+'s';
+      l.style.animationDelay=(-Math.random()*dur)+'s';
+      const s=.6+Math.random()*.9;l.style.transform='scale('+s+')';c.appendChild(l);}
+  })();
+
+  (function(){
+    const list=document.getElementById('checklist');if(!list)return;
+    const items=[...list.querySelectorAll('li')];
+    const bar=document.getElementById('progBar'),txt=document.getElementById('progTxt');
+    let saved={};try{saved=JSON.parse(localStorage.getItem('th26_checks')||'{}');}catch(e){}
+    function render(){let done=0;items.forEach(li=>{const on=!!saved[li.dataset.id];li.classList.toggle('done',on);if(on)done++;});
+      bar.style.width=Math.round(done/items.length*100)+'%';
+      txt.textContent=done===items.length?'¡Todo listo! ✦':(done+' de '+items.length+' hechas');}
+    items.forEach(li=>li.addEventListener('click',()=>{saved[li.dataset.id]=!saved[li.dataset.id];
+      try{localStorage.setItem('th26_checks',JSON.stringify(saved));}catch(e){}render();}));
+    render();
+  })();
+
+  // PWA: service worker + install prompt
+  if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}
+  let deferredPrompt;
+  const btn=document.getElementById('installBtn'),iosHint=document.getElementById('iosHint');
+  window.addEventListener('beforeinstallprompt',(e)=>{e.preventDefault();deferredPrompt=e;btn.style.display='block';});
+  btn&&btn.addEventListener('click',async()=>{if(!deferredPrompt)return;deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;btn.style.display='none';});
+  // iOS no soporta beforeinstallprompt: mostramos la pista manual
+  const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
+  const standalone=window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone;
+  if(isIOS&&!standalone&&iosHint){iosHint.style.display='block';}
+
+  // Actualizar a la última versión: limpia cachés, desregistra el SW viejo y recarga limpio
+  (function(){
+    const ub=document.getElementById('updateBtn');
+    if(!ub) return;
+    ub.addEventListener('click',async()=>{
+      ub.textContent='Buscando actualización…';
+      ub.disabled=true;
+      try{
+        if('caches' in window){
+          const names=await caches.keys();
+          await Promise.all(names.map(n=>caches.delete(n)));
+        }
+        if('serviceWorker' in navigator){
+          const regs=await navigator.serviceWorker.getRegistrations();
+          await Promise.all(regs.map(r=>r.unregister()));
+        }
+      }catch(e){}
+      // Recarga saltando la caché del navegador (añade parámetro anti-caché)
+      const u=new URL(window.location.href);
+      u.searchParams.set('v', Date.now());
+      window.location.replace(u.toString());
+    });
+  })();
+
+  // Descargar la guía como HTML autónomo (imágenes incrustadas para uso sin conexión)
+  (function(){
+    const dl=document.getElementById('downloadBtn');
+    if(!dl) return;
+    async function toDataURL(url){
+      try{
+        const r=await fetch(url,{mode:'cors'});
+        const b=await r.blob();
+        return await new Promise((res,rej)=>{const fr=new FileReader();fr.onload=()=>res(fr.result);fr.onerror=rej;fr.readAsDataURL(b);});
+      }catch(e){ return url; } // si falla, deja la URL original
+    }
+    dl.addEventListener('click',async()=>{
+      const original=dl.textContent;
+      dl.textContent='Preparando… incrustando imágenes';
+      dl.disabled=true;
+      try{
+        // Clonamos el documento para no tocar el que se está viendo
+        const clone=document.documentElement.cloneNode(true);
+        // Quitamos del clon el propio botón y su nota
+        const cb=clone.querySelector('#downloadBtn'); if(cb) cb.remove();
+        const ubc=clone.querySelector('#updateBtn'); if(ubc) ubc.remove();
+        const cn=clone.querySelector('.dl-note'); if(cn) cn.remove();
+        // Convertimos cada imagen a data URL para que viaje dentro del archivo
+        const imgs=[...clone.querySelectorAll('img.hero-img')];
+        await Promise.all(imgs.map(async(img)=>{
+          const d=await toDataURL(img.getAttribute('src'));
+          img.setAttribute('src',d);
+        }));
+        // Marca de versión en el pie
+        const stamp=clone.querySelector('.foot');
+        if(stamp){const v=document.createElement('div');v.style.marginTop='8px';v.style.opacity='.6';v.textContent='Descargada el '+new Date().toLocaleString('es-ES');stamp.appendChild(v);}
+        const html='<!DOCTYPE html>\n'+clone.outerHTML;
+        const blob=new Blob([html],{type:'text/html;charset=utf-8'});
+        const url=URL.createObjectURL(blob);
+        const a=document.createElement('a');
+        a.href=url;
+        a.download='Guia-Tailandia-2026.html';
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(()=>{URL.revokeObjectURL(url);a.remove();},1500);
+        dl.textContent='✓ Descargada';
+      }catch(e){
+        dl.textContent='No se pudo descargar — reintenta';
+      }
+      setTimeout(()=>{dl.textContent=original;dl.disabled=false;},2500);
+    });
+  })();
+</script>
+</body>
+</html>
