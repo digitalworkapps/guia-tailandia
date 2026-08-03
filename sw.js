@@ -1,5 +1,5 @@
 // Cambia este número cada vez que publiques una versión nueva
-const CACHE = 'tailandia-2026-v2';
+const CACHE = 'tailandia-2026-v3';
 const CORE = ['index.html', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png'];
 
 self.addEventListener('install', (e) => {
