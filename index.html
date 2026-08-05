@@ -107,6 +107,34 @@
   .vid{position:relative;width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;margin-top:12px;background:#16293d}
   .vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 
+  /* VUELOS */
+  .flights{display:flex;flex-direction:column;gap:14px;margin:6px 0 8px}
+  .flight{border:1px solid var(--line);border-radius:20px;background:linear-gradient(162deg,rgba(91,155,213,.09),rgba(255,255,255,.028));padding:18px 18px 16px;position:relative;overflow:hidden}
+  .flight::before{content:"";position:absolute;top:-40px;right:-30px;width:120px;height:120px;background:radial-gradient(circle,rgba(91,155,213,.28),transparent 70%);pointer-events:none}
+  .fl-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;position:relative}
+  .fl-route{display:flex;align-items:center;gap:8px;font-family:'Fraunces',serif;font-size:1.12rem;color:var(--paper);font-weight:500;line-height:1.15}
+  .fl-route .pin{color:var(--sky);font-size:.8rem;transform:translateY(-1px)}
+  .fl-when{text-align:right;flex-shrink:0;font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--sky);font-weight:500;padding-top:3px}
+  .fl-sub{font-size:.74rem;color:var(--paper-dim);margin:2px 0 14px;position:relative}
+  .fl-rail{position:relative}
+  .fl-row{display:grid;grid-template-columns:50px 18px 1fr;align-items:start;column-gap:11px}
+  .fl-t{font-size:.82rem;color:var(--paper);font-weight:500;line-height:1.15;text-align:right;padding-top:1px}
+  .fl-t span{display:block;font-size:.58rem;color:var(--paper-dim);text-transform:uppercase;letter-spacing:.06em;font-weight:400;margin-top:1px}
+  .fl-mk{position:relative;align-self:stretch;display:flex;justify-content:center}
+  .fl-mk::after{content:"";position:absolute;top:0;bottom:0;left:50%;width:2px;transform:translateX(-50%);background:rgba(91,155,213,.3)}
+  .fl-row.first .fl-mk::after{top:7px}
+  .fl-row.last .fl-mk::after{bottom:calc(100% - 7px)}
+  .fl-dot{width:9px;height:9px;border-radius:50%;background:var(--sky);margin-top:3px;z-index:1;box-shadow:0 0 0 3px rgba(91,155,213,.16)}
+  .fl-row.stop.first .fl-dot,.fl-row.stop.last .fl-dot{background:var(--lantern);box-shadow:0 0 0 3px rgba(244,169,80,.18)}
+  .fl-hollow{background:var(--night);border:2px solid var(--sky)}
+  .fl-p{font-size:.85rem;color:var(--paper);line-height:1.3;padding-bottom:14px}
+  .fl-p b{font-weight:500}
+  .fl-p .fl-term{color:var(--paper-dim);font-size:.74rem}
+  .fl-seg{font-size:.76rem;color:var(--paper-dim);padding-bottom:14px}
+  .fl-seg b{color:var(--paper);font-weight:500}
+  .fl-seg .fl-lay{color:var(--lantern)}
+  .fl-bag{display:flex;align-items:center;gap:7px;margin-top:2px;padding-top:13px;border-top:1px solid var(--line);font-size:.76rem;color:var(--paper-dim);position:relative}
+
   /* INFO CARDS */
   .info{border:1px solid rgba(255,255,255,.07);border-radius:18px;background:var(--card);padding:20px;margin-bottom:14px}
   .info h3{font-family:'Fraunces',serif;font-weight:500;font-size:1.15rem;color:var(--paper);margin-bottom:6px;display:flex;align-items:center;gap:9px}
@@ -182,6 +210,105 @@
     <div class="warn">⚠ Reservar YA: entradas del evento de linternas (se agotan con meses) y hotel en Chiang Mai (la ciudad se llena).</div>
   </div>
 
+  <div class="sec-head" id="vuelos"><span class="n">✈</span><h2>Tus vuelos</h2></div>
+  <div class="flights">
+
+    <!-- IDA -->
+    <div class="flight">
+      <div class="fl-head">
+        <div class="fl-route">Madrid <span class="pin">✈</span> Bangkok</div>
+        <div class="fl-when">Ida · sáb 21 nov</div>
+      </div>
+      <div class="fl-sub">Etihad Airways · 1 escala en Abu Dabi · 15h 30m</div>
+      <div class="fl-rail">
+        <div class="fl-row stop first">
+          <div class="fl-t">9:45<span>21 nov</span></div>
+          <div class="fl-mk"><span class="fl-dot"></span></div>
+          <div class="fl-p"><b>Madrid</b> · Adolfo Suárez Barajas <span class="fl-term">(MAD) · T4</span></div>
+        </div>
+        <div class="fl-row">
+          <div class="fl-t"></div>
+          <div class="fl-mk"></div>
+          <div class="fl-seg">✈ <b>Etihad EY0102</b> · Turista · 6h 50m</div>
+        </div>
+        <div class="fl-row stop">
+          <div class="fl-t">19:35<span>21 nov</span></div>
+          <div class="fl-mk"><span class="fl-dot fl-hollow"></span></div>
+          <div class="fl-p"><b>Abu Dabi</b> · Internacional <span class="fl-term">(AUH) · Terminal A</span></div>
+        </div>
+        <div class="fl-row">
+          <div class="fl-t"></div>
+          <div class="fl-mk"></div>
+          <div class="fl-seg"><span class="fl-lay">⏱ Escala · 2h 25m</span></div>
+        </div>
+        <div class="fl-row stop">
+          <div class="fl-t">22:00<span>21 nov</span></div>
+          <div class="fl-mk"><span class="fl-dot fl-hollow"></span></div>
+          <div class="fl-p"><b>Abu Dabi</b> · Internacional <span class="fl-term">(AUH) · Terminal A</span></div>
+        </div>
+        <div class="fl-row">
+          <div class="fl-t"></div>
+          <div class="fl-mk"></div>
+          <div class="fl-seg">✈ <b>Etihad EY1044</b> · Turista · 6h 15m</div>
+        </div>
+        <div class="fl-row stop last">
+          <div class="fl-t">7:15<span>+1 · 22 nov</span></div>
+          <div class="fl-mk"><span class="fl-dot"></span></div>
+          <div class="fl-p"><b>Bangkok</b> · Suvarnabhumi <span class="fl-term">(BKK) · llega el domingo</span></div>
+        </div>
+      </div>
+      <div class="fl-bag">🧳 Incluye bolso pequeño y maleta de mano</div>
+    </div>
+
+    <!-- VUELTA -->
+    <div class="flight">
+      <div class="fl-head">
+        <div class="fl-route">Bangkok <span class="pin">✈</span> Madrid</div>
+        <div class="fl-when">Vuelta · sáb 5 dic</div>
+      </div>
+      <div class="fl-sub">Etihad Airways · 1 escala en Abu Dabi · 16h 35m</div>
+      <div class="fl-rail">
+        <div class="fl-row stop first">
+          <div class="fl-t">8:30<span>5 dic</span></div>
+          <div class="fl-mk"><span class="fl-dot"></span></div>
+          <div class="fl-p"><b>Bangkok</b> · Suvarnabhumi <span class="fl-term">(BKK)</span></div>
+        </div>
+        <div class="fl-row">
+          <div class="fl-t"></div>
+          <div class="fl-mk"></div>
+          <div class="fl-seg">✈ <b>Etihad EY0403</b> · Turista · 6h 50m</div>
+        </div>
+        <div class="fl-row stop">
+          <div class="fl-t">12:20<span>5 dic</span></div>
+          <div class="fl-mk"><span class="fl-dot fl-hollow"></span></div>
+          <div class="fl-p"><b>Abu Dabi</b> · Internacional <span class="fl-term">(AUH) · Terminal A</span></div>
+        </div>
+        <div class="fl-row">
+          <div class="fl-t"></div>
+          <div class="fl-mk"></div>
+          <div class="fl-seg"><span class="fl-lay">⏱ Escala · 1h 45m</span></div>
+        </div>
+        <div class="fl-row stop">
+          <div class="fl-t">14:05<span>5 dic</span></div>
+          <div class="fl-mk"><span class="fl-dot fl-hollow"></span></div>
+          <div class="fl-p"><b>Abu Dabi</b> · Internacional <span class="fl-term">(AUH) · Terminal A</span></div>
+        </div>
+        <div class="fl-row">
+          <div class="fl-t"></div>
+          <div class="fl-mk"></div>
+          <div class="fl-seg">✈ <b>Etihad EY0103</b> · Turista · 8h</div>
+        </div>
+        <div class="fl-row stop last">
+          <div class="fl-t">19:05<span>5 dic</span></div>
+          <div class="fl-mk"><span class="fl-dot"></span></div>
+          <div class="fl-p"><b>Madrid</b> · Adolfo Suárez Barajas <span class="fl-term">(MAD) · T4</span></div>
+        </div>
+      </div>
+      <div class="fl-bag">🧳 Incluye bolso pequeño y maleta de mano</div>
+    </div>
+
+  </div>
+
   <div class="sec-head" id="dias"><span class="n">01</span><h2>El viaje, día a día</h2></div>
   <div class="legend">
     <span class="chip playa"><span class="d"></span>Playa</span>
@@ -199,7 +326,7 @@
       <svg class="chev" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </summary>
     <div class="body">
-      <div class="row"><div class="k">Vuelo</div><div class="v">Madrid → Bangkok. Con el cambio horario se llega el domingo 22.</div></div>
+      <div class="row"><div class="k">Vuelo</div><div class="v">Madrid (9:45) → Bangkok con escala en Abu Dabi (Etihad). Se llega el domingo 22 a las 7:15.<span class="hint">Detalle completo arriba, en «Tus vuelos».</span></div></div>
       <div class="row"><div class="k">Llegada</div><div class="v">Traslado al hotel en Grab o taxi con taxímetro.<span class="hint">Tarde suave por el jet lag: paseo y cena en un mercado nocturno.</span></div></div>
       <div class="row"><div class="k">Coste</div><div class="v"><span class="price">Taxi aeropuerto ~11 € (400 THB)</span></div></div>
     </div>
@@ -377,13 +504,13 @@
   <details class="day">
     <summary>
       <span class="num">13–14</span>
-      <div class="head-txt"><div class="d-date">Jue 3 – Vie 5 dic</div><div class="d-place">Margen + vuelta</div>
+      <div class="head-txt"><div class="d-date">Jue 3 – Sáb 5 dic</div><div class="d-place">Margen + vuelta</div>
         <div class="d-tags"><span class="mini playa">Playa</span><span class="mini ciudad">Ciudad</span></div></div>
       <svg class="chev" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </summary>
     <div class="body">
       <div class="row"><div class="k">Colchón</div><div class="v">1–2 días libres: más playa en Krabi o más Bangkok/Ayutthaya, a elegir.</div></div>
-      <div class="row"><div class="k">Vie 5</div><div class="v">Vuelo Bangkok → Madrid. Margen para el traslado si sale de Suvarnabhumi (BKK).</div></div>
+      <div class="row"><div class="k">Sáb 5</div><div class="v">Vuelo Bangkok (8:30) → Madrid, escala en Abu Dabi (Etihad). Llegada a Barajas a las 19:05.<span class="hint">Sale de Suvarnabhumi (BKK): estad en el aeropuerto sobre las 5:30–6:00.</span></div></div>
     </div>
   </details>
 
@@ -481,6 +608,7 @@
 
 <nav class="nav">
   <a href="#festival"><span class="ic">✦</span>Festival</a>
+  <a href="#vuelos"><span class="ic">✈</span>Vuelos</a>
   <a href="#dias"><span class="ic">◷</span>Días</a>
   <a href="#clima"><span class="ic">☂</span>Clima</a>
   <a href="#moto"><span class="ic">◍</span>Moto</a>
